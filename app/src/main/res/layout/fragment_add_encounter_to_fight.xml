@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.github.tormundsmember.a5einitiativetracker.UI.Fragments.AddEncounterToFightFragment">
+
+
+    <include layout="@layout/muster_setcombatantbeforefight" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/liste"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnLayout"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/muster"
+        tools:listitem="@layout/listitem_setcombatantbeforefight" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/btnLayout"
+        android:elevation="2dp"
+        >
+
+        <android.support.v7.widget.AppCompatButton
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:elevation="2dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/AddEncounterToFight_Add"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/btnAdd"
+            />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UI.Fragments.SaveEncounterFragment"
+    android:id="@+id/container"
+    >
+
+    <EditText
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/SaveEncounter_Title"
+        android:inputType="textCapWords"
+        android:textSize="28sp"
+        />
+
+    <include
+        layout="@layout/muster_savedcombatant"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/txtTitle" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/liste"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttonPanel"
+        android:layout_below="@+id/muster"
+        tools:listitem="@layout/listitem_savecombatanttoencounter" />
+
+    <RelativeLayout
+        android:id="@+id/buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <android.support.v7.widget.AppCompatButton
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:paddingBottom="0dp"
+            android:layout_alignParentEnd="true"
+            android:text="@string/SaveEncounter_Save"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/btnSave"
+            />
+    </RelativeLayout>
+</RelativeLayout>

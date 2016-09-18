@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'realm-android'
+
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
+    compileOptions.incremental = false
+
+    defaultConfig {
+        applicationId "io.github.tormundsmember.a5einitiativetracker"
+        minSdkVersion 21
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+
+
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    apt 'com.google.dagger:dagger-compiler:2.5'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+
+
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:support-v4:24.2.0'
+    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.android.support:cardview-v7:24.2.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.google.dagger:dagger:2.5'
+    compile 'com.squareup:otto:1.3.8'
+    compile 'net.alhazmy13.Gota:libary:1.3.0'
+    compile 'com.github.brnunes:swipeablerecyclerview:1.0.2'
+
+}

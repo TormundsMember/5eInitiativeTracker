@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_runEncounter">Run Encounter</string>
+    <string name="nav_managePlayers">Manage Players</string>
+    <string name="nav_manageEncounters">Manage Encounters</string>
+
+    <string name="title_players">Players</string>
+    <string name="title_encounters">Encounters</string>
+    <string name="title_search">Search</string>
+
+    <string name="global_cancel">Cancel</string>
+    <string name="global_ok">OK</string>
+    <string name="global_add">Add</string>
+    <string name="global_save">Save</string>
+    <string name="global_name">Name</string>
+    <string name="global_init">Initiative</string>
+    <string name="global_modifier">Mod</string>
+    <string name="global_ac">AC</string>
+
+    <string name="edit_vampire">Vampire</string>
+
+    <string name="AddEncounterToFight_Add">Add to Fight</string>
+
+    <string name="SaveEncounter_Save">Save as Encounter</string>
+    <string name="SaveEncounter_mod">Mod</string>
+    <string name="SaveEncounter_Title">Catacombs Encounter</string>
+
+    <string name="AddCombatant_Initiative">Initiative: </string>
+    <string name="AddCombatant_AC">AC: </string>
+    <string name="AddCombatant_Name">Name: </string>
+    <string name="global_search">Search</string>
+    <string name="SaveEncounter_noTitle">You have to set a title to save your encounter!</string>
+    <string name="global_edit">Edit</string>
+    <string name="AllEncounters_Delete">Encounter deleted</string>
+    <string name="global_undo">Undo</string>
+</resources>

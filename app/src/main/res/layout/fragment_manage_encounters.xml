@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ard="http://schemas.android.com/apk/res-auto"
+
+    tools:context="io.github.tormundsmember.a5einitiativetracker.UI.Fragments.ManageEncountersFragment"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_searchbar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/searchbarBody"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/liste"
+        android:dividerHeight="0dp"
+        android:divider="@android:color/transparent"
+        tools:listitem="@layout/listitem_encounter"
+        />
+
+
+</RelativeLayout>
