@@ -50,7 +50,7 @@ public class EncountersAdapter extends RecyclerView.Adapter<EncountersAdapter.Vi
         if (filter.equals("") || encounter.getTitle().toLowerCase().contains(filter.toLowerCase())) {
             holder.view.setVisibility(View.VISIBLE);
             mRealm.beginTransaction();
-            encounter.setCombatants(encounter.getCombatants());
+            encounter.calculateContents();
             mRealm.commitTransaction();
             holder.txtContents.setText(encounter.toString());
             holder.txtTitle.setText(encounter.getTitle());

@@ -41,7 +41,8 @@
         android:layout_height="48dp"
         android:src="@drawable/dice_d20"
         android:tint="@color/colorPrimaryDark"
-        android:background="@android:color/transparent"
+
+        android:background="?attr/selectableItemBackground"
         android:id="@+id/btnRandom" />
 
     <ImageButton
@@ -49,6 +50,6 @@
         android:layout_height="48dp"
         android:src="@drawable/ic_delete_white_24dp"
         android:tint="@color/colorPrimaryDark"
-        android:background="@android:color/transparent"
+        android:background="?attr/selectableItemBackground"
         android:id="@+id/btnDelete" />
 </LinearLayout>

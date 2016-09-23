@@ -3,6 +3,8 @@ package io.github.tormundsmember.a5einitiativetracker.UI.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.view.KeyEvent;
@@ -32,6 +34,10 @@ import io.realm.Realm;
  */
 public class AddCombatantFragment extends Fragment {
 
+    private final static int NO_INIT = 1;
+    private final static int NO_NAME = 2;
+    private final static int NO_AC = 4;
+
     @BindView(R.id.txtInit)
     TextView txtInit;
 
@@ -46,6 +52,9 @@ public class AddCombatantFragment extends Fragment {
 
     @BindView(R.id.btnAdd)
     AppCompatButton btnAdd;
+
+    @BindView(R.id.coordinatorlayout)
+    CoordinatorLayout coordinatorLayout;
 
     private Bus mBus;
     private Combatant mCombatant;
@@ -76,7 +85,7 @@ public class AddCombatantFragment extends Fragment {
             }
         });
 
-        if(mCombatant != null){
+        if (mCombatant != null) {
             txtAc.setText(String.valueOf(mCombatant.getAc()));
             txtInit.setText(String.valueOf(mCombatant.getInitiative()));
             txtName.setText(mCombatant.getName());
@@ -108,19 +117,63 @@ public class AddCombatantFragment extends Fragment {
     @OnClick(R.id.btnAdd)
     public void add() {
 
-        mBus.post(new HideKeyboardEvent());
-        Realm realm = RealmFactory.getInstance(getActivity());
-        realm.beginTransaction();
+        int flags = 0;
 
-        Combatant c = mCombatant == null ? realm.createObject(Combatant.class) : mCombatant;
-        c.setInitiative(Integer.parseInt(txtInit.getText().toString()));
-        c.setAc(Integer.parseInt(txtAc.getText().toString()));
-        c.setName(txtName.getText().toString());
+        if (!txtInit.getText().toString().matches("^\\d+$"))
+            flags += NO_INIT;
+        if (txtName.getText().toString().matches("^$"))
+            flags += NO_NAME;
+        if (!txtAc.getText().toString().matches("^\\d+$"))
+            flags += NO_AC;
 
-        if (mCombatant == null) {
-            realm.where(Fight.class).findAll().get(0).getFighters().add(c);
+        if (flags == 0) {
+
+            mBus.post(new HideKeyboardEvent());
+            Realm realm = RealmFactory.getInstance(getActivity());
+            realm.beginTransaction();
+
+            Combatant c = mCombatant == null ? realm.createObject(Combatant.class) : mCombatant;
+            c.setInitiative(Integer.parseInt(txtInit.getText().toString()));
+            c.setAc(Integer.parseInt(txtAc.getText().toString()));
+            c.setName(txtName.getText().toString());
+
+            if (mCombatant == null) {
+                realm.where(Fight.class).findAll().get(0).getFighters().add(c);
+            }
+            realm.commitTransaction();
+            mBus.post(new AddCombatantFragmentResponse(false));
+        } else {
+            //private final static int NO_INIT = 1;
+//            private final static int NO_NAME = 2;
+//            private final static int NO_AC = 4;
+
+            String errorText = getString(R.string.AddCombatant_Error);
+            String txt = "";
+            switch (flags) {
+                case 1:
+                    txt = getString(R.string.AddCombatant_Initiative_Error);
+                    break;
+                case 2:
+                    txt = getString(R.string.AddCombatant_Name_Error);
+                    break;
+                case 3:
+                    txt = getString(R.string.AddCombatant_Initiative_Error) + " and " + getString(R.string.AddCombatant_Name_Error);
+                    break;
+                case 4:
+                    txt = getString(R.string.AddCombatant_AC_Error);
+                    break;
+                case 5:
+                    txt = getString(R.string.AddCombatant_Initiative_Error) + " and " + getString(R.string.AddCombatant_Name_Error);
+                    break;
+                case 6:
+                    txt = getString(R.string.AddCombatant_AC_Error) + " and " + getString(R.string.AddCombatant_Name_Error);
+                    break;
+                case 7:
+                    txt = getString(R.string.AddCombatant_Initiative_Error) + ", " + getString(R.string.AddCombatant_AC_Error) + " and " + getString(R.string.AddCombatant_Name_Error);
+                    break;
+            }
+
+            Snackbar.make(coordinatorLayout,String.format(errorText, txt), Snackbar.LENGTH_LONG).show();
         }
-        realm.commitTransaction();
-        mBus.post(new AddCombatantFragmentResponse(false));
     }
 }

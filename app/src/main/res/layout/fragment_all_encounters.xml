@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="io.github.tormundsmember.a5einitiativetracker.UI.Fragments.AllEncountersFragment"
-    android:layout_margin="@dimen/activity_default_margin"
     >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/liste"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/listitem_encounter" />
+        tools:listitem="@layout/listitem_encounter"
+        android:layout_margin="@dimen/activity_default_margin"
+        />
 </android.support.design.widget.CoordinatorLayout>

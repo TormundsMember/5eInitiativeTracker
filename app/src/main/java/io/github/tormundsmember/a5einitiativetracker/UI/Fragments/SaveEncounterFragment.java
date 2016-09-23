@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Events.HideKeyboardEvent;
+import io.github.tormundsmember.a5einitiativetracker.Logic.Factories.KeyFactory;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Models.Combatant;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Models.Encounter;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Models.Fight;
@@ -107,23 +108,18 @@ public class SaveEncounterFragment extends Fragment {
     @OnClick(R.id.btnSave)
     public void saveEncounter(){
         if(!txtTitle.getText().toString().trim().equals("")){
-            int key = 0;
-            if(mRealm.where(Encounter.class).count() != 0) {
-                RealmResults<Encounter> encounters = mRealm.where(Encounter.class).findAll();
-                Encounter encounter = encounters.last();
-                key = encounter != null ? encounter.getKey() + 1 : 0;
-            }
             List<SavedCombatant> combatants = mAdapter.getCombatants();
             mRealm.beginTransaction();
-            Encounter e = mRealm.createObject(Encounter.class);
-            e.setKey(key);
+            Encounter e = new Encounter();
+            e.setKey(KeyFactory.getKey());
             e.setTitle(txtTitle.getText().toString());
             RealmList<SavedCombatant> combatantRealmList = new RealmList<>();
             for (int i = 0; i < combatants.size(); i++) {
+                mRealm.copyToRealm(combatants.get(i));
                 combatantRealmList.add(combatants.get(i));
             }
             e.setCombatants(combatantRealmList);
-            mRealm.copyToRealm(e);
+            mRealm.copyToRealmOrUpdate(e);
             mRealm.commitTransaction();
             mBus.post(new EncounterSavedEvent());
             mBus.post(new HideKeyboardEvent());

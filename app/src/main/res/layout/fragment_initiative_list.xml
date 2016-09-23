@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="io.github.tormundsmember.a5einitiativetracker.UI.Fragments.InitiativeListFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="@dimen/activity_default_margin"
+    >
 
     <android.support.v7.widget.AppCompatImageButton
         android:layout_width="match_parent"

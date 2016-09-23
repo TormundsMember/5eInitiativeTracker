@@ -17,4 +17,12 @@ public class Fight extends RealmObject {
     public void setFighters(RealmList<Combatant> fighters) {
         this.fighters = fighters;
     }
+
+    public void addFighter(Combatant c){
+        fighters.add(c);
+    }
+
+    public void addExistingFighters(Encounter e){
+
+    }
 }

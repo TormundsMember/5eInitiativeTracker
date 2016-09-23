@@ -23,8 +23,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.tormundsmember.a5einitiativetracker.Logic.Events.AddEncounterToFightEvent;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Events.HideKeyboardEvent;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Events.OpenFragmentEvent;
+import io.github.tormundsmember.a5einitiativetracker.Logic.Factories.KeyFactory;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Models.Combatant;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Models.Fight;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Events.AddCombatantFragmentResponse;
@@ -34,6 +36,7 @@ import io.github.tormundsmember.a5einitiativetracker.Logic.Factories.BusFactory;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Factories.RealmFactory;
 import io.github.tormundsmember.a5einitiativetracker.R;
 import io.github.tormundsmember.a5einitiativetracker.UI.Fragments.AddCombatantFragment;
+import io.github.tormundsmember.a5einitiativetracker.UI.Fragments.AddEncounterToFightFragment;
 import io.github.tormundsmember.a5einitiativetracker.UI.Fragments.AllEncountersFragment;
 import io.github.tormundsmember.a5einitiativetracker.UI.Fragments.InitiativeListFragment;
 import io.github.tormundsmember.a5einitiativetracker.UI.Fragments.SaveEncounterFragment;
@@ -69,9 +72,10 @@ public class MainActivity extends AppCompatActivity {
         setTitle(R.string.nav_runEncounter);
         setupDrawerContent(mNavigationView);
         mRealm = RealmFactory.getInstance(this);
-
+        KeyFactory.restoreKey(mRealm);
         mRealm.beginTransaction();
         mRealm.delete(Fight.class);
+//        mRealm.deleteAll();
 //        mRealm.delete(Encounter.class);
         mFight = mRealm.createObject(Fight.class);
         mFight.setFighters(new RealmList<Combatant>());
@@ -203,5 +207,10 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void openFragment(OpenFragmentEvent event){
         loadFragment(event.getFragment(), event.isAddtoBackStack());
+    }
+
+    @Subscribe
+    public void addEncounterToFight(AddEncounterToFightEvent event){
+        loadFragment(AddEncounterToFightFragment.newInstance(event.getEncounter().getCombatants(), mRealm),false);
     }
 }

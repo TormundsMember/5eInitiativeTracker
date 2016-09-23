@@ -1,6 +1,7 @@
 package io.github.tormundsmember.a5einitiativetracker.UI.Fragments;
 
 
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,12 +20,18 @@ import android.view.ViewGroup;
 import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener;
 import com.squareup.otto.Bus;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.tormundsmember.a5einitiativetracker.Logic.Factories.KeyFactory;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Models.Encounter;
 import io.github.tormundsmember.a5einitiativetracker.Logic.Factories.BusFactory;
+import io.github.tormundsmember.a5einitiativetracker.Logic.Models.SavedCombatant;
 import io.github.tormundsmember.a5einitiativetracker.R;
 import io.github.tormundsmember.a5einitiativetracker.UI.Adapters.EncountersAdapter;
+import io.github.tormundsmember.a5einitiativetracker.UI.Adapters.SaveEncounterAdapter;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -44,7 +51,6 @@ public class AllEncountersFragment extends Fragment {
     Bus mBus;
     private EncountersAdapter mAdapter;
     private RealmList<Encounter> encounters;
-    private Encounter lastRemovedEncounter;
 
     public AllEncountersFragment() {
         // Required empty public constructor
@@ -139,9 +145,10 @@ public class AllEncountersFragment extends Fragment {
     private void removeEncounter(int[] reverseSortedPositions) {
         for (final int position : reverseSortedPositions) {
             mRealm.beginTransaction();
-            lastRemovedEncounter = encounters.get(position);
-            RealmResults<Encounter> results = mRealm.where(Encounter.class).equalTo("key", encounters.get(position).getKey()).findAll();
-            results.deleteAllFromRealm();
+            final List<SavedCombatant> combatants = cloneEncounter(encounters.get(position));
+            final String title = encounters.get(position).getTitle();
+            final boolean isPlayersEnconter = encounters.get(position).isPlayerEncounter();
+            encounters.get(position).deleteFromRealm();
             encounters.remove(position);
             mRealm.commitTransaction();
             mAdapter.notifyItemRemoved(position);
@@ -149,13 +156,39 @@ public class AllEncountersFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     mRealm.beginTransaction();
-                    mRealm.copyToRealm(lastRemovedEncounter);
-                    lastRemovedEncounter = null;
+                    Encounter e = new Encounter();
+                    e.setTitle(title);
+                    e.setPlayerEncounter(isPlayersEnconter);
+                    RealmList<SavedCombatant> combatantRealmList = new RealmList<SavedCombatant>();
+                    for (int i = 0; i < combatants.size(); i++) {
+                        combatantRealmList.add(combatants.get(i));
+                        mRealm.copyToRealm(combatants.get(i));
+                    }
+                    e.setKey(KeyFactory.getKey());
+                    mRealm.copyToRealm(e);
+                    e.setCombatants(combatantRealmList);
                     mRealm.commitTransaction();
                     mAdapter.notifyItemInserted(position);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }).setCallback(new Snackbar.Callback() {
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    super.onDismissed(snackbar, event);
+
                 }
             }).show();
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    private List<SavedCombatant> cloneEncounter(Encounter encounter) {
+
+        List<SavedCombatant> combatantList = new LinkedList<>();
+        for (int i = 0; i < encounter.getCombatants().size(); i++) {
+            combatantList.add(encounter.getCombatants().get(i));
+            combatantList.get(i).deleteFromRealm();
+        }
+        return combatantList;
     }
 }

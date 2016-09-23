@@ -5,7 +5,9 @@
     xmlns:ard="http://schemas.android.com/apk/res-auto"
 
     tools:context="io.github.tormundsmember.a5einitiativetracker.UI.Fragments.ManageEncountersFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="@dimen/activity_default_margin"
+    >
 
     <include layout="@layout/widget_searchbar"/>
 

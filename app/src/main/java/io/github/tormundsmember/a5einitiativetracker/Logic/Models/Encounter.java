@@ -5,10 +5,12 @@ import java.util.HashMap;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 
 public class Encounter extends RealmObject {
 
+    @PrimaryKey
     private int key;
     private String title;
     private boolean isPlayerEncounter;
@@ -56,7 +58,10 @@ public class Encounter extends RealmObject {
 
     public void setCombatants(RealmList<SavedCombatant> combatants) {
         this.combatants = combatants;
+        calculateContents();
+    }
 
+    public void calculateContents() {
         HashMap<String, Integer> countMap = new HashMap<>();
         for (int i = 0; i < combatants.size(); ++i) {
             String name = combatants.get(i).getName();
@@ -80,5 +85,7 @@ public class Encounter extends RealmObject {
     public String toString() {
         return contents;
     }
+
+
 
 }

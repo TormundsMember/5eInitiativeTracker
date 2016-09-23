@@ -2,7 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.tormundsmember.a5einitiativetracker.UI.Fragments.AddEncounterToFightFragment">
+    tools:context="io.github.tormundsmember.a5einitiativetracker.UI.Fragments.AddEncounterToFightFragment"
+    android:layout_marginTop="@dimen/activity_default_margin"
+    android:layout_marginRight="@dimen/activity_default_margin"
+    android:layout_marginLeft="@dimen/activity_default_margin"
+
+    >
 
 
     <include layout="@layout/muster_setcombatantbeforefight" />
@@ -25,11 +30,11 @@
         android:elevation="2dp"
         >
 
-        <android.support.v7.widget.AppCompatButton
-            style="?attr/borderlessButtonStyle"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:elevation="2dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"

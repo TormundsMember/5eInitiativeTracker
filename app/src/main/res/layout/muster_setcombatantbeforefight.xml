@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_weight="12"
             android:gravity="center_vertical"
-            android:text="Mod"
+            android:text="@string/global_modifier"
             android:textStyle="bold" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_marginRight="6dp"
             android:layout_weight="40"
             android:gravity="center_vertical"
-            android:text="Name"
+            android:text="@string/global_name"
             android:textStyle="bold" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_weight="25"
             android:gravity="center_vertical"
-            android:text="Iniative"
+            android:text="@string/global_init"
             android:textStyle="bold" />
 
         <ImageButton
